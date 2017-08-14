@@ -1,0 +1,161 @@
+<div class="page-header text-center"><h1><font color="green"><strong id="top">Inscripción de Idea</strong></font></h1></div>
+<div class="row">
+	<label class="col-md-10 col-md-offset-2 requerido"><em><u>Campos marcados con * son obligatorios</u></em></label><br><br>
+</div>
+
+<div class="inscribirIdea">
+	<form class="form-horizontal" name="Inscribir">
+		<div class="form-group">
+			<label class="control-label col-md-2 col-md-offset-2" for="titulo">Título*</label>
+			<div class="col-md-6">
+				<input type="text" class="form-control"  name="titulo" ng-model="idea.titulo"
+				id="titulo" placeholder="ej. Mi Idea" autofocus required>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-md-2 col-md-offset-2" for="descripcion">Descripción*</label>
+			<div class="col-md-6">
+				<textarea class="form-control" rows="2" name="descripcion" ng-model="idea.descripcion" style="resize: none; height: 200px"
+				placeholder="Escriba aquí la descripción para la idea..." name="descripcion" id="descripcion" required></textarea>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-md-2 col-md-offset-2"  for="numEquipos">Número de equipos*</label>
+			<div class="col-md-1">
+				<select class="form-control" name="num_grupos" ng-model="idea.numEquipos" id="numEquipos" required>
+					<option>1</option>
+					<option>2</option>
+					<option>3</option>
+					<option>4</option>
+				</select>
+			</div>
+			<label class="control-label derecha col-md-3" for="numMiembros">Integrantes por grupo*</label>
+			<div class="col-md-1">
+				<select class="form-control" name="num_miembros" ng-model="idea.numMiembros" id="numMiembros" required>
+					<option>1</option>
+					<option>2</option>
+					<option>3</option>
+					<option>4</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group ">
+			<label class="control-label col-md-2 col-md-offset-2" for="asignaturas">Asignaturas*</label>
+
+			<div class="col-md-6">
+				<input type="number" class="form-control"  name="asignaturas" id="asignaturas"
+				ng-change="rangoAsignaturas(numAsignaturas)" ng-model='numAsignaturas' min="1" max="20"
+				placeholder="Cantidad de asignaturas a ingresar" required>
+			</div>
+		</div>
+		<div class="form-group" ng-repeat="n in rangeAsignaturas">
+			<label class="control-label col-md-2 col-md-offset-2">Asignatura #{{$index + 1}}</label>
+			<div class="col-md-6">
+				<select class="form-control" ng-model="idea.asignaturas[$index]" id="asignaturas{{$index}}" required>
+					<option value="" disabled selected>Asignatura</option>
+					<option ng-repeat="asignatura in asignaturas" value="{{asignatura.codigo}}" >{{asignatura.codigo + " - " +asignatura.nombre}}</option>
+				</select>
+			</div>
+		</div>
+
+		<!--  -->
+		<div class="form-group ">
+			<label class="control-label col-md-2 col-md-offset-2" for="proponente">Cantidad de Proponentes *</label>
+
+			<div class="col-md-6">
+				<input type="number" class="form-control"  name="proponente" id="proponente"
+				ng-change="rangoProponentes(numProponente)" ng-model='numProponente' min="1" max="20"
+				placeholder="Cantidad de proponentes a ingresar" required>
+			</div>
+		</div>
+		<!--  -->
+		<div class="form-group" ng-repeat="n in rangeProponentes">
+			<label class="control-label col-md-2 col-md-offset-2">Proponente #{{$index + 1}}</label>
+			<div class="col-md-2">
+				<select class="form-control" ng-model="idea.proponentes[$index].tipo" id="proponente{{$index}}" required>
+					<option value="" disabled selecte>Tipo</option>
+					<option value="2">Estudiante</option>
+					<option value="1">Profesor</option>
+					<option value="3">Organización</option>
+				</select>
+			</div>
+			<div class="col-md-4">
+				<input type="text" class="form-control" placeholder="Nombre del proponente" ng-model="idea.proponentes[$index].nombre">
+			</div>
+			<div class="col-md-6 col-md-offset-4" style="margin-top:5px">
+				<input type="email" class="form-control" ng-model="idea.proponentes[$index].correo" name="email" id="email"  placeholder="ej. usuario@udea.edu.co" required>
+				<div ng-show="Inscribir.email.$error.email" role="alert">Email invalido</div>
+			</div>
+		</div>
+
+		<div class="col-md-10 col-md-offset-2">
+			<h3><font color="green"><strong class="control-label">Prerrequisitos*</strong></font>
+			</h3>
+		</div>
+		<div class="form-group">
+			<div class="col-md-3 col-md-offset-2">
+				<input class="form-control" type="text" placeholder="ej. Análisis" name="name" ng-model="filtro"/>
+			</div>
+		</div>
+	<div class="row">
+		<div  class="pre-scrollable col-md-8 col-md-offset-2">
+			<ul ng-repeat="area in areas" class="list-group">
+				<li ng-show="!filtro" title="Area Académica" class="list-group-item titulo">{{area.nombre}}</li>
+				<li title="Click para seleccionar" ng-click="guardarPrerrequisito(materia.codigo, materia.nombre);" href=""
+				ng-repeat="materia in area.materias | filter: filtro" ng-if="idea.prerrequisitos.indexOf(materia.codigo)==-1"
+				class="list-group-item item">{{materia.nombre}}</li>
+			</ul>
+		</div>
+	</div>
+	<br>
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<table ng-show="idea.materia.length!=0" class="table table-striped table-hover">
+				<thead>
+					<tr>
+						<th class="text-center">Prerrequisitos Seleccionados</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr ng-repeat="nomMateria in nomMaterias">
+						<td >
+							<div class="row">
+								<li title="Click para descartar" ng-click="eliminarPrerrequisito($index)" class="col-md-8 col-md-offset-2 item">{{nomMateria}}</li>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<br>
+
+			<div class="text-center"><button type="submit" ng-disabled="" ng-click="inscribirIdea()" data-toggle="modal" data-target="#inscribirModal"
+				class="btn btn-success btn-lg"><strong>Inscribir Idea</strong></button>
+			</div>
+			<!-- inicio inscribirModal -->
+			<div id="inscribirModal" class="modal fade" tabindex="-1" role="dialog">
+				<div class="modal-dialog modal-sm">
+<!-- modal content -->
+					<div class="modal-content">
+						<div class="modal-header text-center">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h1 class="modal-title" id="exampleModalLabel"><strong>Idea inscrita</strong></h1>
+						</div>
+						<div class="modal-body text-justify">
+							<div class="row">
+								<div class="col-md-8 col-md-offset-2">
+									<h3>La idea ha sido inscrita correctamente</h3><br>
+								</div>
+							</div><br>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-success" ng-click="cargarPagina()" data-dismiss="modal">Cerrar</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- fin inscrbirModal -->
+		</form>
+	</div>
+</div>
+</div>

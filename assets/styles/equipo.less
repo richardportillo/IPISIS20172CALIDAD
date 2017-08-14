@@ -1,0 +1,151 @@
+.equipos {
+  width: 90%;
+  margin: 0 auto;
+
+  .tab {
+    width: 100%;
+    list-style-type: none;
+    text-align: center;
+    li {
+      display: inline-block;
+      &:hover {
+        border-bottom: 5px @theme-color solid;
+      }
+
+      .active {
+        border-bottom: 5px @theme-color-hover solid;
+        &:hover {
+          border-bottom: 0;
+        }
+      }
+
+      a {
+        display: block;
+        text-align: center;
+        width: 150px;
+        padding: 10px 20px;
+        border-radius: 10px;
+
+        text-decoration: none;
+        background-color: #F9F9F9;
+        color: black;
+        font-size: 125%;
+      }
+    }
+  }
+
+  .views {
+    width: 100%;
+    .crear {
+      width: 70%;
+      margin: 0 auto;
+      clear: both;
+
+      .estudiantes {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+
+        .estudiante {
+          border: 2px @theme-color solid;
+          border-radius: 10px;
+          display: inline-block;
+
+          padding: 15px 25px;
+          margin: 10px;
+        }
+      }
+    }
+
+    .lista {
+      width: 100%;
+      .card {
+        position: relative;
+        width: 100%;
+        border: 2px @theme-color-hover solid;
+        border-radius: 5px;
+
+        margin: 10px;
+        padding: 10px;
+
+        .info {
+          display: inline-block;
+          // width: 79%;
+        }
+        .invitacion {
+          display: inline-block;
+          position: absolute;
+          float: right;
+          right: 0px;
+          top: 0px;
+          border-left: 2px @theme-color-hover solid;
+          height: 100%;
+          // width: 19%;
+        }
+      }
+    }
+  }
+}
+
+.equipo {
+  width: 90%;
+  margin: 0 auto;
+
+  .tab {
+    width: 100%;
+    list-style-type: none;
+    text-align: center;
+    li {
+      display: inline-block;
+      &:hover {
+        border-bottom: 5px @theme-color solid;
+      }
+
+      .active {
+        border-bottom: 5px @theme-color-hover solid;
+        &:hover {
+          border-bottom: 0;
+        }
+      }
+
+      a {
+        display: block;
+        text-align: center;
+        width: 150px;
+        padding: 10px 20px;
+        border-radius: 10px;
+
+        text-decoration: none;
+        background-color: #F9F9F9;
+        color: black;
+        font-size: 125%;
+      }
+    }
+  }
+
+  .views {
+    width: 100%;
+
+    .informacion {
+      float: left;
+      width: 100%;
+      .inscripcion {
+        vertical-align: top;
+        display: inline-block;
+        width: 50%;
+        float: left;
+      }
+      .integrantes {
+        display: inline-block;
+        width: 40%;
+        float: right;
+        .integrante {
+          margin: 10px 5px;
+          border: 2px @theme-color-hover solid;
+          border-radius: 15px;
+        }
+      }
+    }
+  }
+}

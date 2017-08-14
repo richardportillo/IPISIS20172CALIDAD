@@ -1,0 +1,94 @@
+<div class="row">
+
+  <!-- INFORMACIÓN DE PROFESOR -->
+  <div class="col-sm-5">
+    <h2>Información de profesor</h2>
+    <hr>
+
+    <table class="table table-hover">
+      <tbody>
+        <tr>
+          <th>Nombre</th>
+          <td>{{user.nombre}}</td>
+        </tr>
+        <tr>
+          <th>Correo electrónico</th>
+          <td>{{user.correo}}</td>
+        </tr>
+        <tr>
+          <th>Tipo</th>
+          <td>{{user.tipo | capitalize}}</td>
+        </tr>
+        <tr>
+          <th>Rol</th>
+          <td>{{user.rol | capitalize}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <form name="pswForm" ng-submit="profesorCambiarPsw()" class="col-sm-5 col-sm-offset-1" novalidate>
+    <h2>Cambiar contraseña</h2>
+    <hr>
+
+    <!-- CONTRASEÑA ACTUAL -->
+    <div class="control-group form-group col-sm-12">
+      <div ng-class="{'has-error': pswForm.contrasenaActual.$invalid && (!pswForm.contrasenaActual.$pristine || pswForm.$submitted || pswForm.contrasenaActual.$touched),
+      'has-success': pswForm.contrasenaActual.$valid}">
+      <label for="contrasenaActual">Contraseña actual</label>
+      <input name="contrasenaActual" type="password" placeholder="Ingrese su contraseña actual."
+      class="form-control" ng-model="profesor.contrasenaActual" required>
+
+      <!-- VALIDACIONES DE CONTRASEÑA ACTUAL -->
+      <div ng-messages="pswForm.contrasenaActual.$error" ng-if="pswForm.contrasenaActual.$touched || pswForm.$submitted" ng-messages-multiple>
+        <p ng-message="required" class="help-block"><b>El campo de contraseña actual es obligatorio.</b></p>
+      </div>
+    </div>
+    </div>
+
+    <!-- CONTRASEÑA NUEVA -->
+    <div class="control-group form-group col-sm-12">
+      <div ng-class="{'has-error': pswForm.contrasenaNueva.$invalid && (!pswForm.contrasenaNueva.$pristine || pswForm.$submitted || pswForm.contrasenaNueva.$touched),
+      'has-success': pswForm.contrasenaNueva.$valid}">
+      <label for="contrasenaNueva">Contraseña nueva*</label>
+      <input name="contrasenaNueva" type="password" placeholder="Ingrese su contraseña nueva."
+      class="form-control" ng-model="profesor.contrasenaNueva" ng-minlength="6" required>
+
+      <!-- VALIDACIONES DE CONTRASEÑA NUEVA -->
+      <div ng-messages="pswForm.contrasenaNueva.$error" ng-if="pswForm.contrasenaNueva.$touched || pswForm.$submitted" ng-messages-multiple>
+        <p ng-message="required" class="help-block"><b>El campo de contraseña nueva es obligatorio.</b></p>
+        <p ng-message="minlength" class="help-block"><b>La contraseña debe tener por lo menos 6 carácteres.</b></p>
+      </div>
+    </div>
+    </div>
+
+    <!-- COMFIRMAR CONTRASEÑA -->
+    <div class="control-group form-group col-sm-12">
+      <div ng-class="{'has-error': pswForm.reContrasena.$invalid && (!pswForm.reContrasena.$pristine || pswForm.$submitted || pswForm.reContrasena.$touched),
+      'has-success': pswForm.reContrasena.$valid}">
+      <label for="reContrasena">Repetir contraseña*</label>
+      <input name="reContrasena" type="password" placeholder="Vuelve a escribir la contraseña nueva."
+      class="form-control" ng-model="profesor.reContrasena" match-password="contrasenaNueva" required>
+
+      <div ng-messages="pswForm.reContrasena.$error" ng-if="pswForm.reContrasena.$touched || pswForm.$submitted" ng-messages-multiple>
+        <p ng-message="required" class="help-block"><b>El campo repetir contraseña es obligatorio.</b></p>
+        <p ng-message="passwordMatch" class="help-block"><b>Las contraseñas deben ser iguales.</b></p>
+      </div>
+    </div>
+    </div>
+
+    <!-- PANEL DE ALERTA DE ERRORES -->
+    <div class="alert col-sm-12" ng-class="{'alert-success': !error, 'alert-danger': error}"
+     ng-show="mostrarAlerta">
+      <button type="button" class="close" ng-click="switchAlerta('mostrarAlerta')">×</button>
+      <strong> {{mensajeAlerta}}</strong>
+    </div>
+
+    <button class="btn btn-success btn-lg btn-block" type="submit">
+      <span ng-show="!procesando">Cambiar contraseña </span>
+      <span ng-show="procesando">procesando <i class="glyphicon glyphicon-refresh gly-spin"></i></span>
+    </button>
+
+  </form>
+</div>

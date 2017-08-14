@@ -1,0 +1,129 @@
+<div class="signup-container col-sm-6  col-sm-offset-3">
+  <form ng-submit="signupProfesor()" id="sign-up-form" class="form-signin" name="signup" novalidate>
+    <h2 class="form-signin-heading">Crear cuenta</h2>
+    <div class="row">
+
+      <!-- NOMBRE -->
+      <div class="control-group form-group col-sm-12">
+        <div ng-class="{'has-error': signup.nombre.$invalid && (!signup.nombre.$pristine || signup.$submitted || signup.nombre.$touched),
+        'has-success': signup.nombre.$valid}">
+        <label for="nombre" >Nombres*</label>
+        <input id="nombre" name="nombre" type="text" placeholder="e.g. Jhon"
+        class="form-control" ng-model="profesor.nombre" required>
+
+        <!-- VALIDACIONES DE NOMBRE -->
+        <div ng-messages="signup.nombre.$error" ng-if="signup.nombre.$touched || signup.$submitted" ng-messages-multiple>
+          <p ng-message="required" class="help-block"><b>El campo de nombre es obligatorio.</b></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- APELLIDO -->
+    <div class="control-group form-group col-sm-12">
+      <div ng-class="{'has-error': signup.apellido.$invalid && (!signup.apellido.$pristine || signup.$submitted || signup.apellido.$touched),
+      'has-success': signup.apellido.$valid}">
+      <label for="apellido">Apellidos*</label>
+      <input id="apellido" name="apellido" type="text" placeholder="e.g. Snow"
+      class="form-control" ng-model="profesor.apellido"  required>
+
+      <!-- VALIDACION DE APELLIDO -->
+      <div ng-messages="signup.apellido.$error" ng-if="signup.apellido.$touched || signup.$submitted" ng-messages-multiple>
+        <p ng-message="required" class="help-block"><b>El campo de apellido es obligatorio.</b></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CORREO -->
+  <div class="control-group form-group col-sm-12">
+    <div ng-class="{'has-error': signup.correo.$invalid && (!signup.correo.$pristine || signup.$submitted || signup.correo.$touched),
+    'has-success': signup.correo.$valid}">
+    <label for="correo">Correo electrónico*</label>
+    <input id="correo" type="email" class="form-control" placeholder="jhon@winterfell.net"
+    ng-model="profesor.correo" name="correo" required >
+
+    <!-- VALIDACIONES DE CORREO -->
+    <div ng-messages="signup.correo.$error" ng-if="signup.correo.$touched || signup.$submitted" ng-messages-multiple>
+      <p ng-message="required" class="help-block"><b>El campo de correo electrónico es obligatorio.</b></p>
+      <p ng-message="email" class="help-block"><b>El correo electrónico ingresado es invalido.</b></p>
+    </div>
+  </div>
+</div>
+
+<!-- TIPO DE VINCULACIÓN -->
+<div class="control-group form-group col-sm-12">
+  <div ng-class="{'has-error': signup.tipo.$invalid && (!signup.tipo.$pristine || signup.$submitted || signup.tipo.$touched),
+  'has-success': signup.tipo.$valid}">
+  <label for="tipo">Tipo de vinculación*</label>
+  <select id="tipo" name="tipo" class="form-control" ng-model="profesor.tipo"
+      ng-options="tipo.texto for tipo in tipos" ng-init="profesor.tipo = tipos[0]" required>
+  </select>
+
+  <!-- VALIDACIONES DE VINCULACIÓN -->
+  <div ng-messages="signup.tipo.$error" ng-if="signup.tipo.$touched || signup.$submitted" ng-messages-multiple>
+    <p ng-message="required" class="help-block"><b>El campo tipo de vinculación es obligatorio.</b></p>
+  </div>
+</div>
+</div>
+
+<!-- ROL -->
+<div class="control-group form-group col-sm-12">
+  <div ng-class="{'has-error': signup.rol.$invalid && (!signup.rol.$pristine || signup.$submitted || signup.rol.$touched),
+  'has-success': signup.rol.$valid}">
+  <label for="rol">Rol*</label>
+  <select id="rol" class="form-control" name="rol" ng-model="profesor.rol"
+    ng-options="rol.texto for rol in roles" ng-init="profesor.rol = roles[0]" required>
+  </select>
+  <!-- VALIDACIONES DE ROL -->
+  <div ng-messages="signup.rol.$error" ng-if="signup.rol.$touched || signup.$submitted" ng-messages-multiple>
+    <p ng-message="required" class="help-block"><b>El campo de rol es obligatorio.</b></p>
+  </div>
+</div>
+</div>
+
+<!-- CONTRASEÑA -->
+<div class="control-group form-group col-sm-12">
+  <div ng-class="{'has-error': signup.contrasena.$invalid && (!signup.contrasena.$pristine || signup.$submitted || signup.contrasena.$touched),
+  'has-success': signup.contrasena.$valid}">
+  <label for="contrasena">Contraseña*</label>
+  <input id="contrasena" name="contrasena" type="password" placeholder="Al menos 6 caracteres"
+  class="form-control" ng-model="profesor.contrasena" ng-minlength="6" required>
+
+  <!-- VALIDACIONES DE CONTRASEÑA -->
+  <div ng-messages="signup.contrasena.$error" ng-if="signup.contrasena.$touched || signup.$submitted" ng-messages-multiple>
+    <p ng-message="required" class="help-block"><b>El campo de contraseña es obligatorio.</b></p>
+    <p ng-message="minlength" class="help-block"><b>La contraseña debe tener por lo menos 6 carácteres.</b></p>
+  </div>
+</div>
+</div>
+
+<!-- COMFIRMAR CONTRASEÑA -->
+<div class="control-group form-group col-sm-12">
+  <div ng-class="{'has-error': signup.reContrasena.$invalid && (!signup.reContrasena.$pristine || signup.$submitted || signup.reContrasena.$touched),
+  'has-success': signup.reContrasena.$valid}">
+  <label for="reContrasena">Repetir contraseña*</label>
+  <input id="reContrasena" name="reContrasena" type="password" placeholder="Ingresa nuevamente la contraseña"
+  class="form-control" ng-model="profesor.reContrasena" match-password="contrasena" required>
+
+  <!-- VALIDACIONES DE LA CONFIRMACIÓN DE CONTRASEÑA -->
+  <div ng-messages="signup.reContrasena.$error" ng-if="signup.reContrasena.$touched || signup.$submitted" ng-messages-multiple>
+    <p ng-message="required" class="help-block"><b>El campo repetir contraseña es obligatorio.</b></p>
+    <p ng-message="passwordMatch" class="help-block"><b>Las contraseñas deben ser iguales.</b></p>
+  </div>
+</div>
+</div>
+
+<!-- PANEL DE ALERTA DE ERRORES -->
+<div class="alert col-sm-12" ng-class="{'alert-success': !signupError, 'alert-danger': signupError}"
+ng-show="mostrarAlerta">
+<button type="button" class="close" ng-click="switchAlerta('mostrarAlerta')">×</button>
+<strong> {{mensajeAlerta}}</strong>
+</div>
+
+<button class="btn btn-success btn-lg btn-block" type="submit">
+  <span ng-show="!signingUp">Crear cuenta </span>
+  <span ng-show="signingUp">Creando cuenta <i class="glyphicon glyphicon-refresh gly-spin"></i></span>
+</button>
+<br><br>
+</div>
+</form>
+</div>

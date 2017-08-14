@@ -1,0 +1,20 @@
+<div class="lista">
+  <div class="card" ng-repeat="equipo in equipos" ng-click="seleccionarEquipo(equipo)">
+    <div class="info">
+      <div class="">
+        Nombre: {{equipo.nombre | date:'fullDate'}}
+      </div>
+      <div class="">
+        Creación: {{equipo.fechaCreacion | date:'fullDate'}}
+      </div>
+    </div>
+    <div class="invitacion">
+      Invitado
+    </div>
+  </div>
+</div>
+
+<br>
+<br>
+<br>
+{{equipos}}

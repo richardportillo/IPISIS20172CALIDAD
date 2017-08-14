@@ -1,0 +1,32 @@
+<div class="informacion">
+  <div class="inscripcion">
+    <label for="">Nombre del equipo</label>
+    <input type="text" class="form-control" ng-model="equipo.nombre" readonly>
+    <label for="">Asignatura</label>
+    <input type="text" class="form-control" ng-model="equipo.inscripciones[0].materia.nombre" readonly>
+    <label for="">Nombre del proyecto</label>
+    <input type="text" class="form-control" ng-model="equipo.inscripciones[0].proyecto.nombre" readonly>
+    <label for="">Nombre del Tutor</label>
+    <input type="text" class="form-control" ng-model="equipo.inscripciones[0].oferta.profesor.nombre" readonly>
+    <label for="">Correo del tutor</label>
+    <input type="text" class="form-control" ng-model="equipo.inscripciones[0].oferta.profesor.correo" readonly>
+  </div>
+
+  <div class="integrantes">
+    <div class="añadir">
+      <form class="form-inline">
+        <div class="form-group">
+          <label for="" class="">Estudiante</label>
+          <input type="text" class="form-control" placeholder="Nombre de usuario">
+          <input type="submit" class="btn btn-default" value="Añadir">
+        </div>
+      </form>
+    </div>
+
+    <div class="integrante" ng-repeat="integrante in equipo.estudiantes">
+      <p>Nombre: {{integrante.nombre}}</p>
+      <p>Identificación: {{integrante.identificacion}}</p>
+      <p>Estado: {{integrante.equipos[0].EquipoEstudiante.estadoInvitacion}}</p>
+    </div>
+  </div>
+</div>

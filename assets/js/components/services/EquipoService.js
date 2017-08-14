@@ -34,6 +34,15 @@ angular.module('ipisis')
 				params: equipo
 			});
 			return equipo
+		},
+
+		addIntegrante: function (credenciales) {
+			var equipo = $http({
+				url: '/equipo/addIntegrante',
+				method: 'POST',
+				data: credenciales
+			});
+			return equipo
 		}
 	};
 }]);

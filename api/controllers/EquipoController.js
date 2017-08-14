@@ -52,6 +52,66 @@ module.exports = {
 		});
 	},
 
+	addIntegrante: function (req, res) {
+		var usuario = null;
+		var equipoCodigo = null;
+
+		var estudiante = null;
+		usuario = req.param("usuario");
+		if (!usuario) {
+			return res.badRequest({code: 1, msg: 'Debe ingresar un nombre de usuario.'});
+		}
+
+		equipoCodigo = req.param("equipoCodigo");
+		if (!equipoCodigo) {
+			return res.badRequest({code: 1, msg: 'Debe ingresar el código del equipo.'});
+		}
+
+		Estudiante.find({where: {nombreUsuario: usuario}})
+		.then(resEstudiante => {
+			if (resEstudiante) {
+				estudiante = resEstudiante;
+				return Equipo.find({
+					where: {codigo: equipoCodigo},
+					include: [
+						{model: Estudiante, as: 'estudiantes', where: {nombreUsuario: usuario}}
+					]
+				});
+			}
+			else {
+				throw {code: 2, msg: 'El usuario no existe.'};
+			}
+		})
+		.then(resEquipo => {
+			if (resEquipo) {
+				throw {code: 3, msg: 'El usuario ya se encuentra en el equipo.'}
+			} else {
+				return Equipo.find({where: {codigo: equipoCodigo}});
+			}
+		})
+		.then(resEquipo => {
+			if (resEquipo) {
+				return resEquipo.addEstudiantes(estudiante, {estadoInvitacion: 'PENDIENTE'});
+			} else {
+				throw {code: 4, msg: 'El equipo no existe.'}
+			}
+		})
+		.then(resEquipo => {
+			if (resEquipo) {
+				return res.ok();
+			}
+			else {
+				return res.serverError();
+			}
+		})
+		.catch(err => {
+			if (err.code) {
+				return res.badRequest(err);
+			}
+			return res.serverError(err);
+		});
+	},
+
 	getAllBySession: function (req, res) {
 		var estudianteId = null;
 

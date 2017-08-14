@@ -19,4 +19,14 @@ function ($scope, $log, $state, $stateParams, $ngConfirm, EquipoService, Estudia
   }
   $scope.cargarInformacion();
 
+  $scope.addEstudiante = function () {
+    console.log($scope.usuario);
+    EquipoService.addIntegrante({usuario: $scope.usuario.nombre, equipoCodigo: $scope.equipo.codigo})
+    .then(function (res) {
+      console.log(res);
+    })
+    .catch(function (err) {
+
+    });
+  }
 }]);

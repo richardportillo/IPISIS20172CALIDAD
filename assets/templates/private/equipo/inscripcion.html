@@ -16,7 +16,7 @@
 
     <tbody>
     <tr ng-repeat="oferta in ofertas" ng-if="oferta.inscripciones[0].historialInscripcion.length != 1">
-      <td><b>{{oferta.id}} {{oferta.inscripciones[0].historialInscripcion.length}}</b></td>
+      <td><b>{{oferta.id}}</b></td>
       <td>{{oferta.idea.titulo}}</td>
       <td><p ng-repeat="asignatura in oferta.idea.asignaturas">{{asignatura.nombre}}</p></td>
       <td>{{oferta.profesor.nombre || 'No asignado'}}</td>

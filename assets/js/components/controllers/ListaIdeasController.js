@@ -1,7 +1,7 @@
 /**
 Controlador para manejar las ideas que están en el estado 'APROBADO'
 **/
-ipisis.controller('ideasAprobadas', ["$scope", "IdeaService", function($scope, IdeaService) {
+ipisis.controller('ListaIdeasController', ["$scope", "IdeaService", function($scope, IdeaService) {
   IdeaService.obtenerIdeasAprobadas()
     .success(function(data) {
       $scope.ideas = data;

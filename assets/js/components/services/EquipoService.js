@@ -10,6 +10,24 @@ angular.module('ipisis')
 			return equipo;
 		},
 
+		procesarInvitacion: function (credenciales) {
+			var equipo = $http({
+				url: '/equipo/procesarInvitacion',
+				method: 'PUT',
+				data: credenciales
+			});
+			return equipo;
+		},
+
+		salir: function (credenciales) {
+			var equipo = $http({
+				url: '/equipo/salir',
+				method: 'DELETE',
+				params: credenciales
+			});
+			return equipo;
+		},
+
 		getEquiposSession: function () {
 			var equipos = $http({
 				url: '/equipo/getAllBySession',

@@ -17,35 +17,33 @@
           <p ng-message="required" class="help-block"><b>Debe ingresar una cuenta de usuario.</b></p>
         </div>
       </div>
-      </div>
-
-      <!-- CONTRASEÑA -->
-      <div class="control-group form-group col-sm-12">
-        <div ng-class="{'has-error': signin.contrasena.$invalid && (!signin.$pristine || signin.$submitted || signin.contrasena.$touched),
-        'has-success': signin.contrasena.$valid}">
-        <label for="contrasena">Contraseña</label>
-        <input type="password" name="contrasena" placeholder="Contraseña del LIS."
-         class="form-control" ng-model="user.contrasena" required>
-
-         <!-- VALIDACIONES DE CONTRASEÑA -->
-         <div ng-messages="signin.contrasena.$error" ng-if="signin.contrasena.$touched || signin.$submitted" ng-messages-multiple>
-           <p ng-message="required" class="help-block"><b>Debe ingresar una contraseña.</b></p>
-         </div>
-       </div>
-      </div>
     </div>
 
-    <!-- INFORMACIÓN DE ERRORES -->
-    <div class="alert" ng-class="{'alert-success': !loginError, 'alert-danger': loginError}" ng-show="loginError">
-      <button type="button" class="close" ng-click="switchError('loginError')">×</button>
-      <strong> {{errorMensaje}} </strong>
+    <!-- CONTRASEÑA -->
+    <div class="control-group form-group col-sm-12">
+      <div ng-class="{'has-error': signin.contrasena.$invalid && (!signin.$pristine || signin.$submitted || signin.contrasena.$touched),
+      'has-success': signin.contrasena.$valid}">
+      <label for="contrasena">Contraseña</label>
+      <input type="password" name="contrasena" placeholder="Contraseña del LIS."
+      class="form-control" ng-model="user.contrasena" required>
+
+      <!-- VALIDACIONES DE CONTRASEÑA -->
+      <div ng-messages="signin.contrasena.$error" ng-if="signin.contrasena.$touched || signin.$submitted" ng-messages-multiple>
+        <p ng-message="required" class="help-block"><b>Debe ingresar una contraseña.</b></p>
+      </div>
     </div>
-    <!-- <div>
-      <a ui-sref="recuperarContrasenaEquipo">¿Olvidaste tu contraseña?</a>
-    </div> -->
-    <button class="btn btn-success btn-lg btn-block" type="submit">
-      <span ng-show="!signing" >Confirmar </span>
-      <span ng-show="signing">Ingresando <i class="glyphicon glyphicon-refresh gly-spin"></i></span>
-    </button>
-  </form>
+  </div>
+</div>
+
+<!-- INFORMACIÓN DE ERRORES -->
+<div class="alert" ng-class="{'alert-success': !loginError, 'alert-danger': loginError}" ng-show="loginError">
+  <button type="button" class="close" ng-click="switchError('loginError')">×</button>
+  <strong> {{errorMensaje}} </strong>
+</div>
+
+<button class="btn btn-success btn-lg btn-block" type="submit">
+  <span ng-show="!signing" >Confirmar </span>
+  <span ng-show="signing">Ingresando <i class="glyphicon glyphicon-refresh gly-spin"></i></span>
+</button>
+</form>
 </div>

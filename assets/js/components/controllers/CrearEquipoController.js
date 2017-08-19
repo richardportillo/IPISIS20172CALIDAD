@@ -1,11 +1,14 @@
 angular.module('ipisis')
-.controller('CrearEquipoController', ['$scope', '$log', '$ngConfirm', 'EquipoService', 'EstudianteService',
-function ($scope, $log, $ngConfirm, EquipoService, EstudianteService) {
+.controller('CrearEquipoController', ['$scope', '$log', '$state', '$ngConfirm', 'EquipoService', 'EstudianteService',
+function ($scope, $log, $state, $ngConfirm, EquipoService, EstudianteService) {
+  var estudianteActual = null;
   $scope.estudiantes = []
+
 
   EstudianteService.getEstudianteSession()
   .then(function (res) {
-    $scope.estudiantes.push(res.data)
+    estudianteActual = res.data;
+    $scope.estudiantes.push(estudianteActual);
   })
   .catch(function (err) {
     $log.log(err);
@@ -14,6 +17,7 @@ function ($scope, $log, $ngConfirm, EquipoService, EstudianteService) {
   $scope.addEstudiante = function () {
     for (var i in $scope.estudiantes) {
       if ($scope.estudiantes[i].nombreUsuario == $scope.usuarioMares) {
+        $ngConfirm({content: 'El estudiante ya ha sido añadido.', title: '', type: 'red', backgroundDismiss: true});
         return;
       }
     }
@@ -23,8 +27,16 @@ function ($scope, $log, $ngConfirm, EquipoService, EstudianteService) {
       $scope.estudiantes.push(res.data);
     })
     .catch(function (err) {
+      $ngConfirm({content: 'El estudiante no se ha encontrado.', title: '', type: 'red', backgroundDismiss: true});
       $log.log(err);
     });
+  }
+
+  $scope.eliminarEstudiante = function (estudiante) {
+    if (estudiante === estudianteActual) {
+      return;
+    }
+    $scope.estudiantes.splice($scope.estudiantes.indexOf(estudiante), 1);
   }
 
   $scope.crearEquipo = function () {
@@ -41,9 +53,23 @@ function ($scope, $log, $ngConfirm, EquipoService, EstudianteService) {
 
     EquipoService.crear(equipo)
     .then(function (res) {
-      $log.log(res);
+      $ngConfirm({
+        title: 'Equipo creado',
+        content: 'El equipo ha sido creado.',
+        columnClass: 's',
+        type: 'green',
+        buttons: {
+          Salir: {
+            btnClass: 'btn-green',
+            action: function (scope, button) {
+              $state.go('equipos.lista');
+            }
+          }
+        }
+      });
     })
     .catch(function (err) {
+      $ngConfirm({content: 'El equipo no ha sido creado.', title: 'Error', type: 'red', backgroundDismiss: true});
       $log.log(err);
     });
   }

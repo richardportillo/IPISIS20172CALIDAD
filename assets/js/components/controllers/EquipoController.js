@@ -11,6 +11,7 @@ function ($scope, $log, $state, $stateParams, $ngConfirm, EquipoService, Estudia
   $scope.cargarInformacion = function () {
     EquipoService.getEquipoInformacion({equipoCodigo: $scope.equipo.codigo})
     .then(function (res) {
+      console.log(res);
       $scope.equipo = res.data;
     })
     .catch(function (err) {

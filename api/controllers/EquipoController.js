@@ -52,6 +52,89 @@ module.exports = {
 		});
 	},
 
+	salir: function (req, res) {
+		var equipoCodigo = null;
+    var estudianteId = null;
+
+    equipoCodigo = req.param('equipoCodigo');
+    if (!equipoCodigo) {
+      return res.badRequest({code: 1, msg: 'Debe ingresar el código del equipo.'});
+    }
+
+    estudianteId = req.user.id;
+    if (!estudianteId) {
+      return res.forbidden();
+    }
+
+		EquipoEstudiante.findOne({where: {
+			equipoCodigo: equipoCodigo,
+			estudianteId: estudianteId,
+			estadoInvitacion: 'ACEPTADA'
+		}})
+		.then(resEquipoCodigo => {
+			if (resEquipoCodigo) {
+				resEquipoCodigo.destroy()
+				.then(resDestroy => {
+					return res.ok(resDestroy)
+				})
+				.catch(err => {
+						return res.serverError(err);
+				});
+			}
+		})
+		.catch(err => {
+			return res.serverError(err);
+		});
+	},
+
+	procesarInvitacion: function (req, res) {
+		var equipoCodigo = null;
+		var estudianteId = null;
+		var accion = null;
+
+		equipoCodigo = req.param('equipoCodigo');
+		if (!equipoCodigo) {
+			return res.badRequest({code: 1, msg: 'Debe ingresar el código del equipo.'});
+		}
+
+		accion = req.param('accion');
+		if (!accion) {
+			return res.badRequest({code: 1, msg: 'Debe ingresar la acción que desea realizar.'});
+		}
+
+		estudianteId = req.user.id;
+		if (!estudianteId) {
+			return res.forbidden();
+		}
+
+		EquipoEstudiante.findOne({where: {
+			equipoCodigo: equipoCodigo,
+			estudianteId: estudianteId,
+			estadoInvitacion: 'PENDIENTE'
+		}})
+		.then(resEquipoCodigo => {
+			if (resEquipoCodigo) {
+				// Si la accion es igual a 1 se acepta la invitación, si es 2 se rechaza,
+				// si no es ninguna de las dos la peticion es invalida.
+				if (accion == 1) {
+					resEquipoCodigo.update({estadoInvitacion: 'ACEPTADA'})
+					.then(resUpdate => {return res.ok();})
+					.catch(err => {return res.serverError(err);});
+				}
+				else if (accion == 2) {
+					resEquipoCodigo.destroy()
+					.then(resDestroy => {return res.ok()})
+					.catch(err => {return res.serverError()})
+				} else {return res.badRequest()}
+			} else {
+				return res.badRequest();
+			}
+		})
+		.catch(err => {
+			return res.serverError(err);
+		});
+	},
+
 	addIntegrante: function (req, res) {
 		var usuario = null;
 		var equipoCodigo = null;
@@ -122,13 +205,16 @@ module.exports = {
 
 		Estudiante.find({
 			where: {id: estudianteId},
-			include: {model: Equipo, as: 'equipos'}
+			include: {
+				through: {where: {$or: [{estadoInvitacion: 'ACEPTADA'}, {estadoInvitacion: 'PENDIENTE'}]}},
+				model: Equipo, as: 'equipos'
+			}
 		})
 		.then(estudianteResponse => {
 			return res.ok(estudianteResponse)
 		})
 		.catch(err => {
-			return res.serverError();
+			return res.serverError(err);
 		});
 
 	},
@@ -158,7 +244,7 @@ module.exports = {
 			return res.badRequest({code: 1, msg: "Debe ingresar el código del equipo."});
 		}
 
-		Equipo.find({where: {codigo: equipoCodigo},
+		Equipo.findOne({where: {codigo: equipoCodigo},
 			include: [
 				{model: Estudiante, as: 'estudiantes'},
 				{
@@ -167,6 +253,7 @@ module.exports = {
 					required: false,
 					include: [
 						{
+							required: false,
 							model: HistorialInscripcion,
 							as: 'historialInscripcion',
 							where: {estado: 'ACEPTADA'}
@@ -185,7 +272,11 @@ module.exports = {
 			]
 		})
 		.then(resEquipo => {
-			return res.ok(resEquipo);
+			if (!resEquipo) {
+				return res.badRequest(resEquipo);
+			} else {
+				return res.ok(resEquipo);
+			}
 		})
 		.catch(err => {
 			return res.serverError(err);

@@ -48,40 +48,81 @@
         flex-wrap: wrap;
 
         .estudiante {
-          border: 2px @theme-color solid;
-          border-radius: 10px;
           display: inline-block;
+          position: relative;
+          margin: 15px;
+          font-size: 120%;
 
-          padding: 15px 25px;
-          margin: 10px;
+          box-shadow: 5px 5px 10px @theme-color;
+          border: 2px @theme-color-hover solid;
+          border-radius: 5px;
+
+          transition: all 0.2s;
+          cursor: pointer;
+
+          &:hover {
+            opacity: 0.5;
+          }
         }
       }
     }
 
     .lista {
       width: 100%;
+
       .card {
         position: relative;
-        width: 100%;
+        overflow: auto;
+        width: 60%;
+
+        margin: 15px auto;
+        padding: 10px;
+
+        box-shadow: 5px 5px 10px @theme-color;
         border: 2px @theme-color-hover solid;
         border-radius: 5px;
 
-        margin: 10px;
-        padding: 10px;
+        cursor: pointer;
+        transition: all 0.2s;
 
-        .info {
-          display: inline-block;
-          // width: 79%;
+        &:hover {
+          padding: 25px;
         }
-        .invitacion {
-          display: inline-block;
-          position: absolute;
+
+        .detalles {
+          float: left;
+          width: 80%;
+        }
+
+        .opciones {
+          text-align: right;
+          position: relative;
           float: right;
-          right: 0px;
-          top: 0px;
-          border-left: 2px @theme-color-hover solid;
-          height: 100%;
-          // width: 19%;
+          width: 18%;
+
+          .aceptar {
+            color: green;
+            transition: all 0.2s;
+            &:hover {
+              color: @theme-color;
+              font-size: 125%;
+            }
+          }
+          .rechazar {
+            color: red;
+            transition: all 0.2s;
+            &:hover {
+              color: darkRed;
+              font-size: 125%;
+            }
+          }
+          .salir {
+            transition: all 0.2s;
+            &:hover {
+              color: @theme-color;
+              font-size: 125%;
+            }
+          }
         }
       }
     }
@@ -146,11 +187,14 @@
           padding: 15px;
           border: 2px @theme-color-hover solid;
           border-radius: 15px;
+
+
+
           label {
             display: inline-block;
           }
           p {
-            display: inline-block;            
+            display: inline-block;
           }
         }
       }

@@ -1,5 +1,5 @@
 angular.module('ipisis')
-.controller('OfertaController', ['$scope', 'OfertaService',
+.controller('ListaOfertasController', ['$scope', 'OfertaService',
 function ($scope, OfertaService ) {
 
 		OfertaService.getAllBySemestre({semestreCodigo: '2017-2'})

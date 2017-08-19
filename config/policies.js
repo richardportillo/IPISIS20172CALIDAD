@@ -37,9 +37,11 @@ module.exports.policies = {
   //
   EquipoController: {
     crear: 'isEstudiante',
+    salir: 'isEstudiante',
+    procesarInvitacion: 'isEstudiante',
     getAllBySession: 'isEstudiante'
   },
-  
+
   EstudianteController: {
     getBySession: 'isEstudiante'
   },

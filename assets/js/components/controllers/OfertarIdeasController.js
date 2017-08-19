@@ -6,7 +6,7 @@ ipisis.controller('OfertarIdeasController', ["$scope", 'IdeaService', "ProfesorS
   function($scope, IdeaService, ProfesorService, $state, $stateParams, semestreService) {
 
     $scope.semestre = "";
-    $scope.ideasAOfertar = [];
+    $scope.ideas = [];
 
     semestreService.obtenerSemestres()
       .success(function(data) {
@@ -39,7 +39,7 @@ ipisis.controller('OfertarIdeasController', ["$scope", 'IdeaService', "ProfesorS
       };
       IdeaService.ofertarIdea(ideaOferta)
         .success(function(data) {
-          $scope.ideasAOfertar.splice($scope.index, 1);
+          $scope.ideas.splice($scope.index, 1);
           $scope.id = "";
           $scope.titulo = "";
           $scope.descripcion = "";
@@ -56,7 +56,7 @@ ipisis.controller('OfertarIdeasController', ["$scope", 'IdeaService', "ProfesorS
       if ($scope.semestre !== "") {
         IdeaService.obtenerIdeasAprobadas()
           .success(function(data) {
-            $scope.ideasAOfertar = data;
+            $scope.ideas = data;
           });
       }
     };

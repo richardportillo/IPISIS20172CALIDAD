@@ -1,10 +1,10 @@
 angular.module('ipisis')
-.factory('AuthService', ['$http', '$rootScope', 'StorageService','PermRoleStore',
-function($http, $rootScope, StorageService, PermRoleStore){
+.factory('AuthService', ['$http', '$rootScope', 'StorageService','PermRoleStore', 'ROLES',
+function($http, $rootScope, StorageService, PermRoleStore, ROLES){
 var storageTipo = 'session';
 
 	return {
-		// Servicio para el inicio de sesión de un equipo.
+		// Servicio para el inicio de sesión en la plataforma.
 		signinUsuario: function(credenciales) {
 			var rol = null;
 			var signin = $http({
@@ -14,11 +14,16 @@ var storageTipo = 'session';
 			});
 
 			signin.then(function(res) {
-				// Creación de la sesión de un equipo cuando las credenciales son validas.
+				// Creación de la sesión de un usuario cuando las credenciales son validas.
 				rol = res.data.rol;
 				PermRoleStore.clearStore();
-				PermRoleStore.defineRole(rol, function () {return true;});
-				PermRoleStore.defineRole('ANON', function () {return false;});
+				PermRoleStore.defineRole(ROLES.ANON, function() {return false;});
+				PermRoleStore.defineRole(ROLES.JEFE, function() {return false;});
+				PermRoleStore.defineRole(ROLES.COMITE, function() {return false;});
+				PermRoleStore.defineRole(ROLES.PROFESOR, function() {return false;});
+				PermRoleStore.defineRole(ROLES.ESTUDIANTE, function() {return false;});
+				PermRoleStore.defineRole(rol, function() {return true;});
+
 				StorageService.set("auth_token", res.data.token, storageTipo);
 				StorageService.set("rol", rol, storageTipo);
 				$rootScope.$broadcast('renovarRol');
@@ -30,7 +35,11 @@ var storageTipo = 'session';
 		signout: function() {
 			// Terminación de la sesión de un usuario.
 			PermRoleStore.clearStore();
-			PermRoleStore.defineRole("ANON", function () {return true;})
+			PermRoleStore.defineRole(ROLES.ANON, function() {return true;});
+			PermRoleStore.defineRole(ROLES.JEFE, function() {return false;});
+			PermRoleStore.defineRole(ROLES.COMITE, function() {return false;});
+			PermRoleStore.defineRole(ROLES.PROFESOR, function() {return false;});
+			PermRoleStore.defineRole(ROLES.ESTUDIANTE, function() {return false;});
 			StorageService.unset("auth_token", storageTipo);
 			StorageService.unset("rol", storageTipo);
 			$rootScope.$broadcast('renovarRol');
@@ -39,12 +48,8 @@ var storageTipo = 'session';
 		// Servicio para autenticar una sesión de usuario activa.
 		isAutenticado: function() {
 			var rol = StorageService.get("rol", storageTipo);
-			if (!rol) {
-				return false;
-			}
-			if(rol == "ANON"){
-				return false;
-			}
+			if (!rol) {return false;}
+			if (rol == ROLES.ANON) {return false;}
 			return true;
 		},
 
@@ -67,7 +72,8 @@ var storageTipo = 'session';
 
 // Interceptor de peticiones para authorización de usuarios.
 angular.module('ipisis')
-.factory('AuthInterceptor', ['$q', '$injector', '$rootScope', function($q, $injector, $rootScope) {
+.factory('AuthInterceptor', ['$q', '$injector', '$rootScope', 'ROLES',
+function($q, $injector, $rootScope, ROLES) {
 	var StorageService = $injector.get('StorageService');
 	var PermRoleStore = $injector.get('PermRoleStore');
 	var storageTipo = 'session';
@@ -90,7 +96,11 @@ angular.module('ipisis')
 				StorageService.unset('auth_token', storageTipo);
 				StorageService.unset('rol', storageTipo);
 				PermRoleStore.clearStore();
-				PermRoleStore.defineRole('ANON', function () {return true;});
+				PermRoleStore.defineRole(ROLES.ANON, function() {return true;});
+				PermRoleStore.defineRole(ROLES.JEFE, function() {return false;});
+				PermRoleStore.defineRole(ROLES.COMITE, function() {return false;});
+				PermRoleStore.defineRole(ROLES.PROFESOR, function() {return false;});
+				PermRoleStore.defineRole(ROLES.ESTUDIANTE, function() {return false;});
 				$rootScope.$broadcast('renovarRol');
 				$injector.get('$state').go('home');
 			}

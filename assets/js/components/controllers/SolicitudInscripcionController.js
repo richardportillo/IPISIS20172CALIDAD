@@ -14,7 +14,7 @@ function ($scope, $ngConfirm, OfertaService, InscripcionService ) {
     $scope.inscripcionActual = inscripcion;
     $ngConfirm({
       title: '',
-      contentUrl: 'templates/private/jefe/detalleInscripcion.html',
+      contentUrl: 'templates/private/jefe/detalle-inscripcion.html',
       backgroundDismiss: true,
       columnClass: 'l',
       scope: $scope,

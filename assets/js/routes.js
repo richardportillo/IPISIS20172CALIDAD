@@ -1,6 +1,7 @@
 var ipisis = angular.module('ipisis');
 
-ipisis.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
+ipisis.config(['$stateProvider', '$urlRouterProvider', 'ROLES',
+function($stateProvider, $urlRouterProvider, ROLES){
 
 	/**
 	*  RUTAS DE ACCESO GLOBAL.
@@ -16,20 +17,20 @@ ipisis.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
 		controller: "SigninController",
 		data: {
 			permissions: {
-				only: "ANON",
+				only: ROLES.ANON,
 				redirectTo: 'home'
 			}
 		}
 	})
-	.state("ideas", {
-		url: "/ideas",
-		templateUrl: "templates/public/ideas.html",
-		controller: "ideasAprobadas"
+	.state("listaIdeas", {
+		url: "/lista-ideas",
+		templateUrl: "templates/public/lista-ideas.html",
+		controller: "ListaIdeasController"
 	})
-	.state("verOferta", {
-		url: "/verOferta",
-		templateUrl: 'templates/public/oferta.html',
-		controller: "OfertaController"
+	.state("listaOfertas", {
+		url: "/lista-ofertas",
+		templateUrl: 'templates/public/lista-oferta.html',
+		controller: "ListaOfertasController"
 	});
 
 	/**
@@ -40,46 +41,46 @@ ipisis.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
 		url: "/estudiante",
 		templateUrl: "templates/private/estudiante/index.html",
 		data: {
-			// permissions: {
-			// 	only: "EQUIPO",
-			// 	except: "ANON",
-			// 	redirectTo: 'signin'
-			// }
+			permissions: {
+				only: ROLES.ESTUDIANTE,
+				except: ROLES.ANON,
+				redirectTo: 'signin'
+			}
 		}
 	})
 	.state("equipos", {
 		url: "/equipos",
 		templateUrl: "templates/private/estudiante/equipos.html",
 		data: {
-			// permissions: {
-			// 	only: "EQUIPO",
-			// 	except: "ANON",
-			// 	redirectTo: 'signin'
-			// }
+			permissions: {
+				only: ROLES.ESTUDIANTE,
+				except: ROLES.ANON,
+				redirectTo: 'signin'
+			}
 		}
 	})
 	.state("equipos.lista", {
 		url: "/lista",
-		templateUrl: "templates/private/estudiante/equipos-lista.html",
+		templateUrl: "templates/private/estudiante/lista-equipos.html",
 		controller: 'ListaEquiposController',
 		data: {
-			// permissions: {
-			// 	only: "EQUIPO",
-			// 	except: "ANON",
-			// 	redirectTo: 'signin'
-			// }
+			permissions: {
+				only: ROLES.ESTUDIANTE,
+				except: ROLES.ANON,
+				redirectTo: 'signin'
+			}
 		}
 	})
 	.state("equipos.crear", {
 		url: "/crear",
-		templateUrl: "templates/private/estudiante/equipo-crear.html",
+		templateUrl: "templates/private/estudiante/crear-equipo.html",
 		controller: 'CrearEquipoController',
 		data: {
-			// permissions: {
-			// 	only: "EQUIPO",
-			// 	except: "ANON",
-			// 	redirectTo: 'signin'
-			// }
+			permissions: {
+				only: ROLES.ESTUDIANTE,
+				except: ROLES.ANON,
+				redirectTo: 'signin'
+			}
 		}
 	})
 	.state("equipo", {
@@ -88,11 +89,11 @@ ipisis.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
 		controller: 'EquipoController',
 		params: {equipo: null},
 		data: {
-			// permissions: {
-			// 	only: "EQUIPO",
-			// 	except: "ANON",
-			// 	redirectTo: 'signin'
-			// }
+			permissions: {
+				only: ROLES.ESTUDIANTE,
+				except: ROLES.ANON,
+				redirectTo: 'signin'
+			}
 		}
 	})
 
@@ -101,11 +102,11 @@ ipisis.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
 		templateUrl: "templates/private/equipo/preinscripcion.html",
 		controller: "PreinscripcionController",
 		data: {
-			// permissions: {
-			// 	only: "EQUIPO",
-			// 	except: "ANON",
-			// 	redirectTo: 'signin'
-			// }
+			permissions: {
+				only: ROLES.ESTUDIANTE,
+				except: ROLES.ANON,
+				redirectTo: 'signin'
+			}
 		}
 	})
 	.state("equipo.inscripcion", {
@@ -113,11 +114,11 @@ ipisis.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
 		templateUrl: "templates/private/equipo/inscripcion.html",
 		controller: "InscripcionController",
 		data: {
-			// permissions: {
-			// only: "EQUIPO,
-			// except: "ANON",
-			// redirectTo: 'signin'
-			// }
+			permissions: {
+				only: ROLES.ESTUDIANTE,
+				except: ROLES.ANON,
+				redirectTo: 'signin'
+			}
 		}
 	})
 	.state("equipo.inscripciones", {
@@ -125,33 +126,33 @@ ipisis.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
 		templateUrl: "templates/private/equipo/inscripciones.html",
 		controller: "InscripcionesController",
 		data: {
-			// permissions: {
-			// only: "EQUIPO,
-			// except: "ANON",
-			// redirectTo: 'signin'
-			// }
+			permissions: {
+				only: ROLES.ESTUDIANTE,
+				except: ROLES.ANON,
+				redirectTo: 'signin'
+			}
 		}
 	})
 	.state("equipo.informacion", {
 		url: "/informacion",
 		templateUrl: "templates/private/equipo/informacion.html",
 		data: {
-			// permissions: {
-			// only: "EQUIPO,
-			// except: "ANON",
-			// redirectTo: 'signin'
-			// }
+			permissions: {
+				only: ROLES.ESTUDIANTE,
+				except: ROLES.ANON,
+				redirectTo: 'signin'
+			}
 		}
 	})
 	.state("equipo.proyecto", {
 		url: "/proyecto",
 		templateUrl: "templates/private/equipo/proyecto.html",
 		data: {
-			// permissions: {
-			// only: "EQUIPO,
-			// except: "ANON",
-			// redirectTo: 'signin'
-			// }
+			permissions: {
+				only: ROLES.ESTUDIANTE,
+				except: ROLES.ANON,
+				redirectTo: 'signin'
+			}
 		}
 	});
 
@@ -163,10 +164,11 @@ ipisis.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
 		url: "/profesor",
 		templateUrl: "templates/private/profesor/index.html",
 		data: {
-			// permissions: {
-			// 	only: "PROFESOR",
-			// 	redirectTo: 'signin'
-			// }
+			permissions: {
+				only: ROLES.PROFESOR,
+				except: ROLES.ANON,
+				redirectTo: 'signin'
+			}
 		}
 	})
 	.state("crearIdea", {
@@ -174,11 +176,11 @@ ipisis.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
 		templateUrl: "templates/private/profesor/crear-idea.html",
 		controller: "CrearIdeaController",
 		data: {
-			// permissions: {
-			// 	only: "PROFESOR",
-			// 	except: "ANON",
-			// 	redirectTo: 'signin'
-			// }
+			permissions: {
+				only: ROLES.PROFESOR,
+				except: ROLES.ANON,
+				redirectTo: 'signin'
+			}
 		}
 	});
 
@@ -190,11 +192,11 @@ ipisis.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
 		url: "/comite",
 		templateUrl: "templates/private/comite/index.html",
 		data: {
-			// permissions: {
-			// 	only: "COMITE",
-			// 	except: "ANON",
-			// 	redirectTo: 'signin'
-			// }
+			permissions: {
+				only: ROLES.COMITE,
+				except: ROLES.ANON,
+				redirectTo: 'signin'
+			}
 		}
 	})
 	.state("propuestasIdea",{
@@ -202,11 +204,11 @@ ipisis.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
 		templateUrl: "templates/private/comite/propuestas-ideas.html",
 		controller: 'PropuestasIdeaController',
 		data: {
-			// permissions: {
-			// 	only: "COMITE",
-			// 	except: "ANON",
-			// 	redirectTo: 'signin'
-			// }
+			permissions: {
+				only: ROLES.COMITE,
+				except: ROLES.ANON,
+				redirectTo: 'signin'
+			}
 		}
 	});
 
@@ -218,23 +220,23 @@ ipisis.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
 		url: "/jefe",
 		templateUrl: "templates/private/jefe/index.html",
 		data: {
-			// permissions: {
-			// 	only: "JEFE",
-			// 	except: "ANON",
-			// 	redirectTo: 'signin'
-			// }
+			permissions: {
+				only: ROLES.JEFE,
+				except: ROLES.ANON,
+				redirectTo: 'signin'
+			}
 		}
 	})
 	.state("listaProfesores", {
-		url: "/listaProfesores",
-		templateUrl: "templates/private/jefe/listaProfesores.html",
+		url: "/lista-profesores",
+		templateUrl: "templates/private/jefe/lista-profesores.html",
 		controller: "ListaProfesoresController",
 		data: {
-			// permissions: {
-			// 	only: "JEFE",
-			// 	except: "ANON",
-			// 	redirectTo: 'signin'
-			// }
+			permissions: {
+				only: ROLES.JEFE,
+				except: ROLES.ANON,
+				redirectTo: 'signin'
+			}
 		}
 	})
 	.state("ofertarIdeas",{
@@ -242,11 +244,11 @@ ipisis.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
 		templateUrl: "templates/private/jefe/ofertar-ideas.html",
 		controller: "OfertarIdeasController",
 		data: {
-			// permissions: {
-			// 	only: "JEFE",
-			// 	except: "ANON",
-			// 	redirectTo: 'signin'
-			// }
+			permissions: {
+				only: ROLES.JEFE,
+				except: ROLES.ANON,
+				redirectTo: 'signin'
+			}
 		}
 	})
 	.state("solicitudInscripcion", {
@@ -254,11 +256,11 @@ ipisis.config(['$stateProvider', '$urlRouterProvider', function($stateProvider, 
 		templateUrl: "templates/private/jefe/solicitud-inscripcion.html",
 		controller: "SolicitudInscripcionController",
 		data: {
-			// permissions: {
-			// 	only: "JEFE",
-			// 	except: "ANON",
-			// 	redirectTo: 'signin'
-			// }
+			permissions: {
+				only: ROLES.JEFE,
+				except: ROLES.ANON,
+				redirectTo: 'signin'
+			}
 		}
 	});
 

@@ -1,5 +1,5 @@
 'use stric';
-var ipisis = angular.module('ipisis', ['ui.router', 'permission', 'permission.ui',
+var ipisis = angular.module('ipisis', ['ui.router', 'permission', 'permission.ui', 'ui.bootstrap',
 	'ngMessages' , 'ngPassword', 'ngAnimate', 'cp.ngConfirm']);
 
 // Inicializacion de la configuracion principal al ingresar al dominio.

@@ -2,13 +2,13 @@ var ipisis = angular.module('ipisis');
 /*
   Controlador para ofertar las ideas aprobadas en un semestre.
  */
-ipisis.controller('OfertarIdeasController', ["$scope", 'IdeaService', "ProfesorService", "$state", "$stateParams", "semestreService",
-  function($scope, IdeaService, ProfesorService, $state, $stateParams, semestreService) {
+ipisis.controller('OfertarIdeasController', ["$scope", 'IdeaService', "ProfesorService", "$state", "$stateParams", "SemestreService",
+  function($scope, IdeaService, ProfesorService, $state, $stateParams, SemestreService) {
 
     $scope.semestre = "";
     $scope.ideas = [];
 
-    semestreService.obtenerSemestres()
+    SemestreService.getAll()
       .success(function(data) {
         $scope.semestres = data;
         $('#inicialModal').modal('show');

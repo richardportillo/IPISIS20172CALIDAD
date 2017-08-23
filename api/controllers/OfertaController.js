@@ -92,27 +92,33 @@ module.exports = {
       return res.badRequest({code: 1, msg: 'Debe ingresar el codigo de la materia a inscribir.'});
     }
 
-    // Se obtiene toda la información necesaria de la oferta que se desea inscribir.
-    // (oferta, idea, prerrequisitos, asignaturas a las cuales se puede matricular,
-    // semestre en el cual se está ofertando y todas inscripciones realizadas a la oferta)
-    Oferta.find({
-      where: {id: ofertaId},
-      include: [
-        {model: Semestre, as: 'semestre'},
-        {
-          model: Inscripcion,
-          as: 'inscripciones',
-          include: [{model: HistorialInscripcion, as: 'historialInscripcion'}]
-        },
-        {
-          model: Idea,
-          as: 'idea',
+    EquipoEstudiante.findAll({where: {estadoInvitacion: 'PENDIENTE', equipoCodigo: equipoCodigo}})
+    .then(resEquipoCodigo => {
+      if (resEquipoCodigo.length > 0) {
+        throw {code: 10, msg: 'Todos los integrantes deben aceptar la invitación al equipo.'};
+      }
+      // Se obtiene toda la información necesaria de la oferta que se desea inscribir.
+      // (oferta, idea, prerrequisitos, asignaturas a las cuales se puede matricular,
+      // semestre en el cual se está ofertando y todas inscripciones realizadas a la oferta)
+      return Oferta.find({
+          where: {id: ofertaId},
           include: [
-            {model: Materia, as: 'asignaturas'},
-            {model: Materia, as: 'prerrequisitos'}
+            {model: Semestre, as: 'semestre'},
+            {
+              model: Inscripcion,
+              as: 'inscripciones',
+              include: [{model: HistorialInscripcion, as: 'historialInscripcion'}]
+            },
+            {
+              model: Idea,
+              as: 'idea',
+              include: [
+                {model: Materia, as: 'asignaturas'},
+                {model: Materia, as: 'prerrequisitos'}
+              ]
+            },
           ]
-        },
-      ]
+        })
     })
     .then(resOferta => {
       oferta = resOferta;
@@ -264,7 +270,8 @@ module.exports = {
         if (!valido) {
           throw {
             code: 8,
-            msg: 'El estudiante ' + estudiante.identificacion + ' no cumple con la cantidad de creditos.'
+            msg: 'El estudiante ' + estudiante.nombre + ' no cumple con la cantidad de creditos.',
+            estudiante: estudiante
           };
         }
 
@@ -273,7 +280,8 @@ module.exports = {
         if (!valido) {
           throw {
             code: 9,
-            msg: 'El estudiante ' + estudiante.identificacion + ' no cumple los prerrequisitos'
+            msg: 'El estudiante ' + estudiante.nombre + ' no cumple los prerrequisitos',
+            estudiante: estudiante
           };
         }
       });

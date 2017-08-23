@@ -227,6 +227,42 @@ function($stateProvider, $urlRouterProvider, ROLES){
 			}
 		}
 	})
+	.state("semestres", {
+		url: "/semestres",
+		templateUrl: "templates/private/jefe/semestres.html",
+		data: {
+			permissions: {
+				only: ROLES.JEFE,
+				except: ROLES.ANON,
+				redirectTo: 'signin'
+			}
+		}
+	})
+	.state("semestres.crear", {
+		url: "/crear",
+		templateUrl: "templates/private/jefe/crear-semestre.html",
+		controller: "CrearSemestreController",
+		params: {semestre: null, modo: 'CREAR'},
+		data: {
+			permissions: {
+				only: ROLES.JEFE,
+				except: ROLES.ANON,
+				redirectTo: 'signin'
+			}
+		}
+	})
+	.state("semestres.lista", {
+		url: "/lista",
+		templateUrl: "templates/private/jefe/lista-semestre.html",
+		controller: "ListaSemestreController",
+		data: {
+			permissions: {
+				only: ROLES.JEFE,
+				except: ROLES.ANON,
+				redirectTo: 'signin'
+			}
+		}
+	})
 	.state("listaProfesores", {
 		url: "/lista-profesores",
 		templateUrl: "templates/private/jefe/lista-profesores.html",

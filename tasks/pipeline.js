@@ -39,7 +39,7 @@ var jsFilesToInject = [
   'bower_components/angular-route/angular-route.js',
   'bower_components/angular-ui-router/release/angular-ui-router.js',
   'bower_components/angular-animate/angular-animate.min.js',
-  'bower_components/angular-bootstrap/ui-bootstrap-tpls.js',
+  'bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js',
   'bower_components/angular-mocks/angular-mocks.js',
   'bower_components/angular-permission/dist/angular-permission.js',
   'bower_components/angular-permission/dist/angular-permission-ui.js',

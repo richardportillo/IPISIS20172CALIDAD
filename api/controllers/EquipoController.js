@@ -54,17 +54,17 @@ module.exports = {
 
 	salir: function (req, res) {
 		var equipoCodigo = null;
-    var estudianteId = null;
+		var estudianteId = null;
 
-    equipoCodigo = req.param('equipoCodigo');
-    if (!equipoCodigo) {
-      return res.badRequest({code: 1, msg: 'Debe ingresar el código del equipo.'});
-    }
+		equipoCodigo = req.param('equipoCodigo');
+		if (!equipoCodigo) {
+			return res.badRequest({code: 1, msg: 'Debe ingresar el código del equipo.'});
+		}
 
-    estudianteId = req.user.id;
-    if (!estudianteId) {
-      return res.forbidden();
-    }
+		estudianteId = req.user.id;
+		if (!estudianteId) {
+			return res.forbidden();
+		}
 
 		EquipoEstudiante.findOne({where: {
 			equipoCodigo: equipoCodigo,
@@ -78,7 +78,7 @@ module.exports = {
 					return res.ok(resDestroy)
 				})
 				.catch(err => {
-						return res.serverError(err);
+					return res.serverError(err);
 				});
 			}
 		})
@@ -139,7 +139,8 @@ module.exports = {
 		var usuario = null;
 		var equipoCodigo = null;
 
-		var estudiante = null;
+		var equipoInstance = null;
+
 		usuario = req.param("usuario");
 		if (!usuario) {
 			return res.badRequest({code: 1, msg: 'Debe ingresar un nombre de usuario.'});
@@ -149,43 +150,63 @@ module.exports = {
 		if (!equipoCodigo) {
 			return res.badRequest({code: 1, msg: 'Debe ingresar el código del equipo.'});
 		}
+		sails.log.debug(usuario)
+		sails.log.debug(equipoCodigo)
+		Equipo.findOne({
+			where: {codigo: equipoCodigo},
+			include: [
+				{
+					model: Estudiante,
+					as: 'estudiantes',
+					where: {nombreUsuario: usuario},
+					required: false
+				}
+			]
+		})
+		.then(resEquipo => {
+			if (!resEquipo) {
+				throw {code: 2, msg: 'El equipo no existe.'};
+			}
+			if (resEquipo.estudiantes.length != 0) {
+				throw {code: 3, msg: 'El estudiante ya está en el equipo'};
+			}
 
-		Estudiante.find({where: {nombreUsuario: usuario}})
+			equipoInstance = resEquipo;
+			return Inscripcion.findAll({
+				where: {equipoCodigo: equipoCodigo},
+				include: [
+					{
+						model: HistorialInscripcion,
+						as: 'historialInscripcion',
+						where: {
+							estado: {
+								$in: ['CREADA', 'ACEPTADA']
+							},
+							fechaActualizacion: {
+								$in: [
+									sequelize.literal('SELECT MAX(`fecha_actualizacion`) FROM `historial_inscripcion` WHERE `inscripcion`.`id` = `historial_inscripcion`.`inscripcion_id`')
+								]
+							}
+						}
+					}
+				]
+			})
+		})
+		.then(resInscripcion => {
+			if (resInscripcion.length != 0) {
+				throw {code: 4, msg: 'No se puede añadir el estudiante ya que el equipo tiene una inscripción o proyecto activo.'}
+			}
+
+			return Estudiante.findOne({where: {nombreUsuario: usuario}});
+		})
 		.then(resEstudiante => {
-			if (resEstudiante) {
-				estudiante = resEstudiante;
-				return Equipo.find({
-					where: {codigo: equipoCodigo},
-					include: [
-						{model: Estudiante, as: 'estudiantes', where: {nombreUsuario: usuario}}
-					]
-				});
+			if (!resEstudiante) {
+				throw {code: 5, msg: 'El estudiante no se ha encontrado.'}
 			}
-			else {
-				throw {code: 2, msg: 'El usuario no existe.'};
-			}
+			return equipoInstance.addEstudiantes(resEstudiante, {estadoInvitacion: 'PENDIENTE'});
 		})
 		.then(resEquipo => {
-			if (resEquipo) {
-				throw {code: 3, msg: 'El usuario ya se encuentra en el equipo.'}
-			} else {
-				return Equipo.find({where: {codigo: equipoCodigo}});
-			}
-		})
-		.then(resEquipo => {
-			if (resEquipo) {
-				return resEquipo.addEstudiantes(estudiante, {estadoInvitacion: 'PENDIENTE'});
-			} else {
-				throw {code: 4, msg: 'El equipo no existe.'}
-			}
-		})
-		.then(resEquipo => {
-			if (resEquipo) {
-				return res.ok();
-			}
-			else {
-				return res.serverError();
-			}
+			return res.ok();
 		})
 		.catch(err => {
 			if (err.code) {
@@ -286,27 +307,27 @@ module.exports = {
 
 	getPerfil: function(req, res) {
 		var equipoCodigo = null;
-    var estudianteId = null;
+		var estudianteId = null;
 
-    equipoCodigo = req.param('equipoCodigo');
-    if (!equipoCodigo) {
-      return res.badRequest({code: 1, msg: 'Debe ingresar el código del equipo.'});
-    }
+		equipoCodigo = req.param('equipoCodigo');
+		if (!equipoCodigo) {
+			return res.badRequest({code: 1, msg: 'Debe ingresar el código del equipo.'});
+		}
 
-    estudianteId = req.user.id;
-    if (!estudianteId) {
-      return res.forbidden();
-    }
+		estudianteId = req.user.id;
+		if (!estudianteId) {
+			return res.forbidden();
+		}
 
 		Equipo.find({
-      where: {codigo: equipoCodigo},
-      include: [{model: Estudiante, as: 'estudiantes'}]
-    })
+			where: {codigo: equipoCodigo},
+			include: [{model: Estudiante, as: 'estudiantes'}]
+		})
 		.then(resEquipo => {
 			return res.ok(resEquipo);
 		})
 		.catch(err => {
-      return res.serverError(err);
-    });
+			return res.serverError(err);
+		});
 	}
 };

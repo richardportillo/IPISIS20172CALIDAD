@@ -12,21 +12,21 @@ module.exports = {
       primaryKey: true,
       field: 'codigo'
     },
-    fechaInicio: {
+    semestreInicio: {
       type: Sequelize.DATE,
-      field: 'fecha_inicio'
+      field: 'semestre_inicio'
     },
-    fechaCierre: {
+    semestreCierre: {
       type: Sequelize.DATE,
-      field: 'fecha_cierre'
+      field: 'semestre_cierre'
     },
-    inicioInscripcion: {
+    inscripcionInicio: {
       type: Sequelize.DATE,
-      field: 'inicio_inscripcion'
+      field: 'inscripcion_inicio'
     },
-    finInscripcion: {
+    inscripcionCierre: {
       type: Sequelize.DATE,
-      field: 'fin_inscripcion'
+      field: 'inscripcion_cierre'
     }
   },
   // Describe las asociaciones que tiene con los demás modelos.

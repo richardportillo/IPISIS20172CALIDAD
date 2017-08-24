@@ -2,18 +2,7 @@ angular.module('ipisis')
 .controller('SolicitudInscripcionController', ['$scope','$ngConfirm', 'OfertaService', 'InscripcionService', 'SemestreService',
 function ($scope, $ngConfirm, OfertaService, InscripcionService, SemestreService) {
   var semestreActual = null;
-
-  SemestreService.getSemestreActual()
-  .then(function (res) {
-    semestreActual = res.data;
-    return InscripcionService.getAllBySemestre({semestreCodigo: semestreActual.codigo});
-  })
-  .then(function (res) {
-      $scope.inscripciones = res.data;
-  })
-  .catch(function (err) {
-    $log.log(err);
-  })
+  cargarInformacion();
 
   $scope.seleccionar = function (inscripcion) {
     $scope.inscripcionActual = inscripcion;
@@ -50,13 +39,7 @@ function ($scope, $ngConfirm, OfertaService, InscripcionService, SemestreService
             .success(function (resultado) {
               $scope.error = false;
               $scope.observacion = '';
-              InscripcionService.getAllBySemestre({semestreCodigo: semestreActual.codigo})
-              .success(function (resultado) {
-                $scope.inscripciones = resultado;
-              })
-              .error(function (err) {
-                console.log(err);
-              });
+              cargarInformacion();
             })
             .error(function (err) {
               $scope.error = false;
@@ -82,13 +65,7 @@ function ($scope, $ngConfirm, OfertaService, InscripcionService, SemestreService
             .success(function (resultado) {
               $scope.error = false;
               $scope.observacion = '';
-              InscripcionService.getAllBySemestre({semestreCodigo: semestreActual.codigo})
-              .success(function (resultado) {
-                $scope.inscripciones = resultado;
-              })
-              .error(function (err) {
-                console.log(err);
-              });
+              cargarInformacion();
             })
             .error(function (err) {
               $scope.error = false;
@@ -97,5 +74,19 @@ function ($scope, $ngConfirm, OfertaService, InscripcionService, SemestreService
         },
       }
     });
+  }
+
+  function cargarInformacion() {
+    SemestreService.getSemestreActual()
+    .then(function (res) {
+      semestreActual = res.data;
+      return InscripcionService.getAllBySemestre({semestreCodigo: semestreActual.codigo});
+    })
+    .then(function (res) {
+        $scope.inscripciones = res.data;
+    })
+    .catch(function (err) {
+      $log.log(err);
+    })
   }
 }]);

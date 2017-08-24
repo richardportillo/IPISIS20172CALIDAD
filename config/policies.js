@@ -38,6 +38,7 @@ module.exports.policies = {
   EquipoController: {
     crear: 'isEstudiante',
     salir: 'isEstudiante',
+    addIntegrante: 'isEstudiante',
     procesarInvitacion: 'isEstudiante',
     getAllBySession: 'isEstudiante'
   },
@@ -64,9 +65,10 @@ module.exports.policies = {
   //   actualizarHistorial: 'isComite'
   // },
   //
-  // OfertaController: {
-  //   ofertar: 'isJefe'
-  // }
+  OfertaController: {
+    inscribirOferta: 'isEstudiante',
+    ofertar: 'isJefe'
+  }
 
   /***************************************************************************
   *                                                                          *

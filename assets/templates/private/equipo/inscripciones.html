@@ -16,12 +16,12 @@
     </thead>
 
     <tbody>
-    <tr ng-repeat="inscripcion in inscripciones">
+    <tr ng-repeat="inscripcion in inscripciones | orderBy:inscripcion.historialInscripcion[0].fechaActualizacion">
       <td>{{inscripcion.oferta.idea.titulo}}</td>
       <td>{{inscripcion.materia.nombre}}</td>
       <td>{{inscripcion.oferta.profesor.nombre}}</td>
       <td>{{inscripcion.historialInscripcion[0].observacion}}</td>
-      <td>{{inscripcion.historialInscripcion[0].fechaActualizacion | date:"medium"}}</td>
+      <td>{{inscripcion.historialInscripcion[0].fechaActualizacion | date:'yyyy/MM/dd hh:mm a':'+0000'}}</td>
       <td>{{inscripcion.historialInscripcion[0].estado}}</td>
     </tr>
     </tbody>

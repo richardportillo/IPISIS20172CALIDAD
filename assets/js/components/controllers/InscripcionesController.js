@@ -4,7 +4,6 @@ function ($scope, $ngConfirm, InscripcionService ) {
 
     InscripcionService.getInscripcionesEquipo({equipoCodigo: $scope.equipo.codigo})
       .success(function (resultado) {
-        console.log(resultado);
         $scope.inscripciones = resultado
       })
       .error(function (err) {

@@ -60,7 +60,7 @@ module.exports = {
 
   inscribirOferta: function(req, res) {
     // Constantes de validacion.
-    var MAXIMOINSCRIPCIONES = 1;
+    var MAXIMOINSCRIPCIONES = 2;
 
     // Parametros de entrada.
     var equipoCodigo = null;
@@ -74,8 +74,7 @@ module.exports = {
     var estudiantes = null;
 
     // Inicializacion de valores.
-    // estudianteId = req.user;
-    estudianteId = 1;
+    estudianteId = req.user.id;
 
     equipoCodigo = req.param('equipoCodigo');
     if (!equipoCodigo) {
@@ -97,6 +96,7 @@ module.exports = {
       if (resEquipoCodigo.length > 0) {
         throw {code: 10, msg: 'Todos los integrantes deben aceptar la invitación al equipo.'};
       }
+
       // Se obtiene toda la información necesaria de la oferta que se desea inscribir.
       // (oferta, idea, prerrequisitos, asignaturas a las cuales se puede matricular,
       // semestre en el cual se está ofertando y todas inscripciones realizadas a la oferta)
@@ -121,7 +121,19 @@ module.exports = {
         })
     })
     .then(resOferta => {
+      var inscripcionInicio = null;
+      var inscripcionCierre = null;
+      var fechaActual = null;
+
       oferta = resOferta;
+      inscripcionInicio = oferta.semestre.inscripcionInicio;
+      inscripcionCierre = oferta.semestre.inscripcionCierre;
+      fechaActual = new Date(Date.now() + (-300 * 60 * 1000));
+
+      if (inscripcionInicio > fechaActual || inscripcionCierre < fechaActual) {
+        throw {code: 11, msg: 'La fecha de inscripción no está activa para la oferta'};
+      }
+
 
       // Luego de obtener la información de la oferta, se obtiene toda la información
       // del equipo que se está inscribiendo (equipo, inscripciones del equipo,
@@ -199,7 +211,7 @@ module.exports = {
         }
       }
       if (!valido) {
-        throw {code: 2, msg: 'Inscripción rechazada.'};
+        throw {code: 2, msg: 'Inscripción rechazada, el estudiante no pertenece al equipo.'};
       }
 
       // Validamos la cantidad de miembros requeridos para la inscripción.
@@ -288,14 +300,14 @@ module.exports = {
 
       return sequelize.transaction( t => {
         var inscripcion = {
-          fechaCreacion: new Date(),
+          fechaCreacion: new Date(Date.now() + (-300 *60 * 1000)),
           equipoCodigo: equipoCodigo,
           ofertaId: ofertaId,
           materiaCodigo: materiaCodigo
         }
         return Inscripcion.create(inscripcion, {transaction: t}).then(resInscripcion => {
           var historial = {
-            fechaActualizacion: new Date(),
+            fechaActualizacion: new Date(Date.now() + (-300 *60 * 1000)),
             observacion: 'Inscripción creada.',
             estado: 'CREADA',
           }

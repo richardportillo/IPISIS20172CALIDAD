@@ -140,6 +140,7 @@ module.exports = {
 		var equipoCodigo = null;
 
 		var equipoInstance = null;
+		estudianteId = req.user.id;
 
 		usuario = req.param("usuario");
 		if (!usuario) {
@@ -150,25 +151,36 @@ module.exports = {
 		if (!equipoCodigo) {
 			return res.badRequest({code: 1, msg: 'Debe ingresar el código del equipo.'});
 		}
-		sails.log.debug(usuario)
-		sails.log.debug(equipoCodigo)
+
 		Equipo.findOne({
 			where: {codigo: equipoCodigo},
 			include: [
 				{
 					model: Estudiante,
 					as: 'estudiantes',
-					where: {nombreUsuario: usuario},
 					required: false
 				}
 			]
 		})
 		.then(resEquipo => {
+			var estudiante = null;
+			var valido = false;
+
 			if (!resEquipo) {
 				throw {code: 2, msg: 'El equipo no existe.'};
 			}
-			if (resEquipo.estudiantes.length != 0) {
-				throw {code: 3, msg: 'El estudiante ya está en el equipo'};
+
+			for (var i in resEquipo.estudiantes) {
+				estudiante = resEquipo.estudiantes[i];
+				if (estudiante.nombreUsuario == usuario) {
+					throw {code: 3, msg: 'El estudiante ya está en el equipo'};
+				}
+				if (estudiante.id == estudianteId) {
+					valido = true;
+				}
+			}
+			if (!valido) {
+				throw {code: 6, msg: 'El estudiante no pertenece al equipo.'};
 			}
 
 			equipoInstance = resEquipo;
@@ -210,6 +222,9 @@ module.exports = {
 		})
 		.catch(err => {
 			if (err.code) {
+				if (err.code == 6) {
+					return res.forbidden();
+				}
 				return res.badRequest(err);
 			}
 			return res.serverError(err);
@@ -259,6 +274,7 @@ module.exports = {
 
 	getEquipoInformacion: function (req, res) {
 		var equipoCodigo = null;
+		var equipo = null;
 
 		equipoCodigo = req.param('equipoCodigo');
 		if (!equipoCodigo) {
@@ -266,40 +282,43 @@ module.exports = {
 		}
 
 		Equipo.findOne({where: {codigo: equipoCodigo},
-			include: [
-				{model: Estudiante, as: 'estudiantes'},
-				{
-					model: Inscripcion,
-					as: 'inscripciones',
-					required: false,
-					include: [
-						{
-							required: false,
-							model: HistorialInscripcion,
-							as: 'historialInscripcion',
-							where: {estado: 'ACEPTADA'}
-						},
-						{model: Materia, as: 'materia'},
-						{model: Proyecto, as: 'proyecto'},
-						{
-							model: Oferta,
-							as: 'oferta',
-							include: [
-								{model: Profesor, as: 'profesor'}
-							]
-						}
-					]
-				}
-			]
+			include: [{model: Estudiante, as: 'estudiantes'}]
 		})
 		.then(resEquipo => {
 			if (!resEquipo) {
-				return res.badRequest(resEquipo);
-			} else {
-				return res.ok(resEquipo);
+				throw {code: 2, msg: 'No se encontró el equipo.'}
 			}
+
+			equipo = resEquipo;
+
+			return Inscripcion.findOne({
+				where: {equipoCodigo: equipoCodigo},
+				include: [
+					{model: Materia, as: 'materia'},
+					{model: Proyecto, as: 'proyecto'},
+					{
+						model: Oferta,
+						as: 'oferta',
+						include: [{model: Profesor, as: 'profesor'}]
+					},
+					{
+						model: HistorialInscripcion,
+						as: 'historialInscripcion',
+						where: {estado: 'ACEPTADA'}
+					}
+				]
+			});
+		})
+		.then(resInscripcion => {
+			if (resInscripcion) {
+				equipo.dataValues.inscripcion = resInscripcion.dataValues;				
+			}
+			return res.ok(equipo);
 		})
 		.catch(err => {
+			if (err.code) {
+				return res.badRequest(err);
+			}
 			return res.serverError(err);
 		});
 

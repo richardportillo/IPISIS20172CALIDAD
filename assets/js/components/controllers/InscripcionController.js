@@ -52,7 +52,7 @@ function ($scope, $ngConfirm, OfertaService, InscripcionService, SemestreService
                 console.log(err);
               });
               $ngConfirm({
-                title: 'Error',
+                title: '',
                 content: 'La inscripción ha sido exitosa.',
                 type: 'green',
                 backgrounDismiss: true
@@ -71,7 +71,7 @@ function ($scope, $ngConfirm, OfertaService, InscripcionService, SemestreService
                 } else if (code == 2) {
                   $ngConfirm({
                     title: 'Error',
-                    content: 'La inscripción no ha sido completada',
+                    content: 'La inscripción ha sido prohibida.',
                     type: 'red',
                     backgrounDismiss: true
                   });
@@ -143,6 +143,15 @@ function ($scope, $ngConfirm, OfertaService, InscripcionService, SemestreService
                   $ngConfirm({
                     title: 'Error',
                     content: '<p>Todos los integrantes deben aceptar la invitación antes de inscribir una oferta.</p>',
+                    type: 'red',
+                    backgroundDismiss: true,
+                    scope: $scope
+                  });
+                }
+                else if (code == 11) {
+                  $ngConfirm({
+                    title: 'Error',
+                    content: '<p>La inscripción a la oferta aún no está activa, verifique el calendario de inscripciones.</p>',
                     type: 'red',
                     backgroundDismiss: true,
                     scope: $scope

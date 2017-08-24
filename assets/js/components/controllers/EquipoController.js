@@ -59,6 +59,14 @@ function ($scope, $log, $state, $stateParams, $ngConfirm, EquipoService, Estudia
           backgrounDismiss: true
         });
       }
+      else if (data.code == 6) {
+        $ngConfirm({
+          title: 'Error',
+          content: 'No tiene permisos para añadir integrantes a este equipo.',
+          type: 'red',
+          backgrounDismiss: true
+        });
+      }
       else {
         $ngConfirm({
           title: 'Error',

@@ -64,17 +64,4 @@ INSERT INTO `materia`(codigo, nombre, electiva, area_id, admin_proyecto) VALUES
 (2555220,'Álgebra Lineal','0',11,'0'),
 (2555230,'Cálculo Integral','0',11,'0');
 
-INSERT INTO `semestre` (codigo, fecha_inicio, fecha_cierre, inicio_inscripcion, fin_inscripcion) VALUES 
-('2017-2','2017-06-06','2017-11-24','2017-06-06','2017-06-09');
-
-INSERT INTO `equipo` (codigo, nombre, fecha_creacion) VALUES 
-(1, 'IPISIS Seguridad', '2017-01-01');
-
-INSERT INTO `estudiante` (id, identificacion, nombre_usuario, nombre) VALUES 
-(1, '123456789', 'Estudiante1', 'Estudiante1N'),
-(2, '987654321', 'Estudiante2', 'Estudiante2N');
-
-INSERT INTO `equipo_estudiante` (id, equipo_codigo, estudiante_id) VALUES 
-(1, 1, 1),
-(2, 1, 2);
 

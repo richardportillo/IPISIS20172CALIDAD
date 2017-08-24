@@ -1,3 +1,13 @@
-# IPISIS-SQZ
+IPISIS
+Pre-requisitos
 
-a [Sails](http://sailsjs.org) application
+    Instalar npm
+    $ npm install -g sails
+    $ npm install -g grunt-cli
+    $ npm install -g bower
+
+Instalación
+
+    clonar repositorio
+    $ npm install -> En la carpeta raiz
+    $ bower install -> En la carpeta raiz

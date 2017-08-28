@@ -44,7 +44,7 @@ module.exports = {
                 sequelize.literal(
                   'SELECT MAX(`fecha_actualizacion`) \
                   FROM `historial_inscripcion` \
-                  WHERE `inscripcion`.`id` = `historial_inscripcion`.`inscripcion_id`'
+                  WHERE `Inscripcion`.`id` = `historial_inscripcion`.`inscripcion_id`'
                 )
               ]
             }
@@ -117,7 +117,7 @@ module.exports = {
                 estado: 'CREADA',
                 fechaActualizacion: {
                   $in: [sequelize.literal('SELECT MAX(`fecha_actualizacion`) FROM `historial_inscripcion` \
-                  WHERE `inscripcion`.`id` = `historial_inscripcion`.`inscripcion_id`')]
+                  WHERE `Inscripcion`.`id` = `historial_inscripcion`.`inscripcion_id`')]
                 }
               }
             }
@@ -200,7 +200,7 @@ module.exports = {
                 sequelize.literal(
                   'SELECT MAX(`fecha_actualizacion`) \
                   FROM `historial_inscripcion` \
-                  WHERE `inscripcion`.`id` = `historial_inscripcion`.`inscripcion_id`'
+                  WHERE `Inscripcion`.`id` = `historial_inscripcion`.`inscripcion_id`'
                 )
               ]
             }

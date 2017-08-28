@@ -196,7 +196,7 @@ module.exports = {
 							},
 							fechaActualizacion: {
 								$in: [
-									sequelize.literal('SELECT MAX(`fecha_actualizacion`) FROM `historial_inscripcion` WHERE `inscripcion`.`id` = `historial_inscripcion`.`inscripcion_id`')
+									sequelize.literal('SELECT MAX(`fecha_actualizacion`) FROM `historial_inscripcion` WHERE `Inscripcion`.`id` = `historial_inscripcion`.`inscripcion_id`')
 								]
 							}
 						}
@@ -311,7 +311,7 @@ module.exports = {
 		})
 		.then(resInscripcion => {
 			if (resInscripcion) {
-				equipo.dataValues.inscripcion = resInscripcion.dataValues;				
+				equipo.dataValues.inscripcion = resInscripcion.dataValues;
 			}
 			return res.ok(equipo);
 		})

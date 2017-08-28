@@ -36,7 +36,7 @@ function _onJwtStrategyAuth(payload, next) {
 var LDAP_STRATEGY_CONFIG = {
   server: {
     // url: 'ldap://192.168.194.110/',
-    url: 'ldap://192.168.1.55/',
+    url: 'ldap://localhost/',
     bindDn: 'cn=admin,dc=udea,dc=edu,dc=co',
     bindCredentials: 'integrador2017',
     searchBase: 'ou=Usuarios,dc=udea,dc=edu,dc=co',

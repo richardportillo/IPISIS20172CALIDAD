@@ -117,7 +117,7 @@ module.exports = {
             estado: 'PROPUESTA',
             fechaActualizacion: {
               $in: [
-                sequelize.literal('SELECT MAX(`fecha_actualizacion`) FROM `historial_idea` WHERE `idea`.`id` = `historial_idea`.`idea_id`')
+                sequelize.literal('SELECT MAX(`fecha_actualizacion`) FROM `historial_idea` WHERE `Idea`.`id` = `historial_idea`.`idea_id`')
               ]
             }
           }
@@ -145,7 +145,7 @@ module.exports = {
             estado: 'APROBADA',
             fechaActualizacion: {
               $in: [
-                sequelize.literal('SELECT MAX(`fecha_actualizacion`) FROM `historial_idea` WHERE `idea`.`id` = `historial_idea`.`idea_id`')
+                sequelize.literal('SELECT MAX(`fecha_actualizacion`) FROM `historial_idea` WHERE `Idea`.`id` = `historial_idea`.`idea_id`')
               ]
             }
           }

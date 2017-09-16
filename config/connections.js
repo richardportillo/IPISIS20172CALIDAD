@@ -49,13 +49,15 @@ module.exports.connections = {
   // },
 
   mysqlIPISIS: {
+    adapter: 'sails-mysql',
     user: 'root',
-    password: 'root',
+    password: 's3cur3d4t4',
     database: 'ipisis',
-    dialect: 'mysql',
-    options: {
-      host: 'localhost',
-      dialect: 'mysql'
+
+   options: {
+    host: '192.168.30.107',
+    port: '3306',
+    dialect: 'mysql'
     }
   },
 

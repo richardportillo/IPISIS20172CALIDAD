@@ -1,4 +1,5 @@
-IPISIS
+Copia de proyecto IPISIS con fines educativos - tomado de https://github.com/DaegoUdea/IPISIS
+
 Pre-requisitos
 
     Instalar npm

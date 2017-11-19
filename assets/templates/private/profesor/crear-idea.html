@@ -1,7 +1,7 @@
 <div class="page-header text-center">
-	<h1><font color="green"><strong id="top">Inscripción de Idea</strong></font></h1></div>
+	<h1><font color="green"><strong id="top">Inscripción de Ideas</strong></font></h1></div>
 	<div class="row">
-		<label class="col-md-10 col-md-offset-2 requerido"><em><u>Campos marcados con * son obligatorios</u></em></label><br><br>
+		<label class="col-md-10 col-md-offset-2 requerido"><em><u>Campos marcados con asterisco(*) son obligatorios</u></em></label><br><br>
 	</div>
 
 	<div class="inscribirIdea">
@@ -10,7 +10,7 @@
 			<!-- TITULO -->
 			<div class="form-group">
 				<div ng-class="classValidacion(ideaForm, 'titulo')">
-					<label class="control-label col-md-2 col-md-offset-2" for="titulo">Título*</label>
+					<label class="control-label col-md-2 col-md-offset-2" for="titulo">Título(*)</label>
 					<div class="col-md-6">
 						<input type="text" class="form-control" name="titulo" ng-model="idea.titulo" id="titulo"
 						placeholder="ej. Mi Idea" autofocus required>
@@ -25,7 +25,7 @@
 			<!-- DESCRIPCIÓN -->
 			<div class="form-group">
 				<div ng-class="classValidacion(ideaForm, 'descripcion')">
-					<label class="control-label col-md-2 col-md-offset-2" for="descripcion">Descripción*</label>
+					<label class="control-label col-md-2 col-md-offset-2" for="descripcion">Descripción(*)</label>
 					<div class="col-md-6">
 						<textarea class="form-control" rows="2" name="descripcion" ng-model="idea.descripcion"
 						style="resize: none; height: 200px" placeholder="Escriba aquí la descripción para la idea."
@@ -42,7 +42,7 @@
 			<div class="form-group">
 				<!-- NÚMERO DE EQUIPOS -->
 				<div ng-class="classValidacion(ideaForm, 'num_equipos')">
-					<label class="control-label col-md-2 col-md-offset-2" for="num_equipos">Número de equipos*</label>
+					<label class="control-label col-md-2 col-md-offset-2" for="num_equipos">Número de equipos(*)</label>
 					<div class="col-md-1">
 						<select class="form-control" name="num_equipos" ng-model="idea.numEquipos" id="num_equipos" required>
 							<option>1</option>
@@ -85,7 +85,7 @@
 			<!-- CANTIDAD DE ASIGNATURAS -->
 			<div class="form-group ">
 				<div ng-class="classValidacion(ideaForm, 'asignaturas')">
-					<label class="control-label col-md-2 col-md-offset-2" for="asignaturas">Asignaturas*</label>
+					<label class="control-label col-md-2 col-md-offset-2" for="asignaturas">Asignaturas(*)</label>
 					<div class="col-md-6">
 						<input type="number" class="form-control" name="asignaturas" id="asignaturas"
 						ng-change="rangoAsignaturas(numAsignaturas)" ng-model='numAsignaturas' min="1" max="20"

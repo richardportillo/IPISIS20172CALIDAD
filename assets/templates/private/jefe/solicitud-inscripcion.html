@@ -1,11 +1,11 @@
 <div class="page-header text-center">
-  <h1><font color="green"><strong id="top">Lista de inscripciones</strong></font></h1>
+  <h1><font color="green"><strong id="top">Listado de inscripciones</strong></font></h1>
 </div>
 
 <div class="inner-addon left-addon col-sm-12" style="margin-bottom:15px">
   <i class="glyphicon glyphicon-search"></i>
   <input type="text" class="form-control" ng-model="buscar.oferta.idea.titulo"
-  placeholder="Buscar el nombre de la idea." />
+  placeholder="Buscar el nombre de la idea" />
 </div>
 
 <div >
@@ -15,7 +15,7 @@
         <th>ID</th>
         <th>FECHA CREACIÓN</th>
         <th>NOMBRE DE LA IDEA</th>
-        <th>TUTOR</th>
+        <th>TUTOR(ES)</th>
         <th></th>
       </tr>
     </thead>
@@ -26,7 +26,7 @@
       <td>{{inscripcion.fechaCreacion | date:'medium'}}</td>
       <td>{{inscripcion.oferta.idea.titulo}}</td>
       <td>{{inscripcion.oferta.profesor.nombre}}</td>
-      <td><a class="btn btn-success" ng-click="seleccionar(inscripcion)" href="">Detalles</a></td>
+      <td><a class="btn btn-success" ng-click="seleccionar(inscripcion)" href="">Detalles.</a></td>
     </tr>
     </tbody>
   </table>
